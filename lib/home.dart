@@ -33,80 +33,37 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Center(
         child: Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Tic Tac Toe"),
-      // ),
       body: Stack(
         children: [
           Positioned.fill(
             child: Column(
               children: [
-                Expanded(flex: 6, child: Container(child: Column(
-                  children: [
-       Padding(
-       padding: const EdgeInsets.symmetric(horizontal: 20),
-
-    child:  Container(
-      // search wala container
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      margin: EdgeInsets.symmetric(horizontal: 3, vertical: 18),
-      decoration: BoxDecoration(
-          color: Colors.grey[400],
-          borderRadius: BorderRadius.circular(24)),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-            },
-
-            child: Container(
-              child: Icon(
-                Icons.search,
-                color: Colors.blueAccent,
-              ),
-              margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
-            ),
-          ),
-          Expanded(
-            child: TextField(
-              // controller: searchcontroller,
-              decoration: InputDecoration(
-                  border: InputBorder.none, hintText: "Lets search something"),
-            ),
-          ),
-
-          GestureDetector(
-            onTap: () {
-            },
-
-            child: Container(
-              child: Icon(
-                Icons.shopping_cart,
-                color: Colors.grey[600],
-              ),
-              margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
-            ),
-          ),
-        ],
-      ),
-    ),
-
-
-       ),
-       const SizedBox(height: 10,),
-    Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ClipRRect(
-        child: Image.asset('lib/assests/banner.jpg'),
-        borderRadius: BorderRadius.circular(18.0)
-      ),
-    )
-    
-
-
-        ],
-                ),)),
-                Expanded(flex: 2, child: FlashSaleCloseTime()),
+                Expanded(
+                    flex: 8,
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Spacer(
+                            flex: 1,
+                          ),
+                          Expanded(
+                              flex: 3, child: Container(child: SearchBar())),
+                          Expanded(flex: 7, child: Banner(50)),
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: [
+                                TabButton('idols'),
+                                TabButton('utensils'),
+                                TabButton('cloth'),
+                                TabButton('jwellery'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+                Expanded(flex: 1, child: FlashSaleCloseTime()),
                 Expanded(
                     flex: 4,
                     child: Row(
@@ -166,6 +123,114 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class Banner extends StatelessWidget {
+  Banner(this.offer);
+
+  int offer;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      decoration: BoxDecoration(
+          color: Colors.orange, borderRadius: BorderRadius.circular(15)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Spacer(flex: 2),
+          Expanded(
+            flex: 3,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Text("Hot Sale"     ,style: TextStyle(fontSize: 22, color: Colors.white),),
+          
+                Text("${offer}% Off",style: TextStyle(fontSize: 22, color: Colors.white),),
+          
+              ],
+              ),
+            ),
+          ),
+          Spacer(flex: 2),
+          Expanded(
+            flex: 4,
+            child: Stack(
+              children: [
+                Flexible(
+                  child: FractionallySizedBox(
+                    heightFactor: 0.9,
+                    widthFactor: 0.9,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.amber.shade300, shape: BoxShape.circle),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: FractionallySizedBox(
+                    heightFactor: 0.8,
+                    widthFactor: 0.8,
+                    child: Image.asset('lib/assets/image/banner.png'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        // search wala container
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        margin: EdgeInsets.symmetric(horizontal: 3, vertical: 18),
+        decoration: BoxDecoration(
+            color: Colors.grey[400], borderRadius: BorderRadius.circular(24)),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                child: Icon(
+                  Icons.search,
+                  color: Colors.blueAccent,
+                ),
+                margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                // controller: searchcontroller,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: "search"),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.grey[600],
+                ),
+                margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class FlashSaleCard extends StatelessWidget {
   String imagePath;
   String itemName;
@@ -192,7 +257,11 @@ class FlashSaleCard extends StatelessWidget {
                     child: FractionallySizedBox(
                       widthFactor: 0.7,
                       child: Container(
-                          child: Center(child: Text("${offer}% off",style: TextStyle(color: Colors.amber.shade200),)),
+                          child: Center(
+                              child: Text(
+                            "${offer}% off",
+                            style: TextStyle(color: Colors.amber.shade200),
+                          )),
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.amber.shade200),
                               borderRadius: BorderRadius.circular(20))),
@@ -285,7 +354,9 @@ class FlashSaleCloseTime extends StatelessWidget {
                 color: Colors.grey,
               ),
             )),
-            Spacer(flex: 1,),
+        Spacer(
+          flex: 1,
+        ),
         Expanded(
             flex: 1,
             child: AspectRatio(
@@ -294,7 +365,9 @@ class FlashSaleCloseTime extends StatelessWidget {
                 color: Colors.grey,
               ),
             )),
-            Spacer(flex: 1,),
+        Spacer(
+          flex: 1,
+        ),
         Expanded(
             flex: 1,
             child: AspectRatio(
@@ -351,6 +424,26 @@ class RecentlyViewedCard extends StatelessWidget {
               child: Container(),
             ),
           ],
+        ));
+  }
+}
+
+class TabButton extends StatelessWidget {
+  late String textPath;
+  TabButton(this.textPath);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(left: 30),
+        decoration: BoxDecoration(
+            // border: Border.all(),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: Container(
+          color: Colors.amber[50],
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 3, 8, 3),
+            child: Text(textPath),
+          ),
         ));
   }
 }
